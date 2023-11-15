@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.esjumbo
 
 import androidx.compose.foundation.layout.padding
@@ -25,6 +27,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.esjumbo.data.Sumberdata
+import com.example.esjumbo.data.Sumberdata.flavors
 
 enum class PengelolaHalaman {
     Home,
