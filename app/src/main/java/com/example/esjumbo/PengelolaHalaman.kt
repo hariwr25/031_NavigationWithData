@@ -1,6 +1,8 @@
 package com.example.esjumbo
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -17,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,7 +29,8 @@ import com.example.esjumbo.data.Sumberdata
 enum class PengelolaHalaman {
     Home,
     Rasa,
-    Summary
+    Summary,
+    CustomerDetails,
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,9 +50,9 @@ fun EsjumboAPPBar(
             if (bisaNavigasiBack) {
                 IconButton(onClick = navigasiUp) {
                     Icon(
-                        painterResource(R.drawable.arrow_back), contentDescription = stringResource(
-                            R.string.back_button
-                        )
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription =
+                        stringResource(R.string.back_button)
                     )
                 }
             }
@@ -56,7 +60,6 @@ fun EsjumboAPPBar(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EsJumboApp(
     viewModel: OrderViewModel = viewModel(),
@@ -75,43 +78,53 @@ fun EsJumboApp(
         ) {
             composable(route = PengelolaHalaman.Home.name) {
                 HalamanHome(onNextButtonClicked = {
-                    navController.navigate(PengelolaHalaman.Rasa.name)
+                    navController.navigate(PengelolaHalaman.CustomerDetails.name)
                 }
                 )
             }
-            composable(route = PengelolaHalaman.Rasa.name) {
+            composable(route = PengelolaHalaman.CustomerDetails.name) {
+                CustomerDetailsScreen(
+                    onConfirmButtonClicked = { nama, nomor, alamat ->
+                        viewModel.setCustomerDetails(nama, nomor, alamat)
+                        navController.navigate(PengelolaHalaman.Rasa.name)
+                    },
+                    onCancelButtonClicked = {
+                        navController.navigate(PengelolaHalaman.Home.name)
+                    },
+                )
+            }
+            composable(route = PengelolaHalaman.Rasa.name){
                 val context = LocalContext.current
                 HalamanSatu(
-                    pilihanRasa = Sumberdata.flavors.map { id -> context.resources.getString(id) },
-                    onSelectionChanged = { viewModel.setRasa(it) },
-                    onConfirmButtonClicked = { viewModel.setJumlah(it) },
-                    onNextButtonClicked = { navController.navigate(PengelolaHalaman.Summary.name) },
-                    onCancelButtonClicked = {
-                        cancelOrderAndNavigateToHome(
-                            viewModel,
-                            navController
-                        )
+                    pilihanRasa = flavors.map { id ->
+                        context.resources.getString(id)},
+                    onSelectionChanged = {viewModel.setRasa(it)},
+                    onConfirmButtonClicked = {viewModel.setJumlah(it)},
+                    onNextButtonClicked = {navController.navigate(PengelolaHalaman.Summary.name)},
+                    onCancelButtonClicked = { navController.navigate(PengelolaHalaman.CustomerDetails.name)
                     })
             }
             composable(route = PengelolaHalaman.Summary.name) {
                 HalamanDua(
                     orderUIState = uiState,
-                    onCancelButtonClicked = { cancelOrderAndNavigateToRasa(navController) })
+                    onCancelButtonClicked = {
+                        cancelOrderAndNavigateToRasa(navController) },
+                    //onSendButtonClicked = { subject: String, Summary: String -> }
+                )
             }
         }
     }
 }
 
-private fun cancelOrderAndNavigateToHome(
+private fun cancelOrderAndNavigateToHome (
     viewModel: OrderViewModel,
-    navController: NavHostController
-) {
+    navController: NavController
+){
     viewModel.resetOrder()
-    navController.popBackStack(PengelolaHalaman.Home.name, inclusive = false)
+    navController.popBackStack (PengelolaHalaman.Home.name, inclusive = false)
 }
-
-private fun cancelOrderAndNavigateToRasa(
-    navController: NavHostController
+private fun cancelOrderAndNavigateToRasa (
+    navController: NavController
 ) {
     navController.popBackStack(PengelolaHalaman.Rasa.name, inclusive = false)
 }
