@@ -54,14 +54,14 @@ fun HalamanHome(
             ) {
                 Image(painter = image, contentDescription = "", contentScale = ContentScale.Crop)
                 Text(
-                    text = "Anderson",
+                    text = "Es APA",
                     color = Color.DarkGray,
                     fontFamily = FontFamily.Monospace,
                     fontSize = 35.sp,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 Text(
-                    text = "Drink",
+                    text = "HAYO",
                     color = Color.DarkGray,
                     fontFamily = FontFamily.Monospace,
                     fontStyle = FontStyle.Italic,
