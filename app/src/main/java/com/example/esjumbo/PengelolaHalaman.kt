@@ -1,24 +1,22 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
+@file:OptIn (ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class)
 package com.example.esjumbo
-
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons. Icons
+import androidx.compose.material.icons.filled. ArrowBack
+import androidx.compose.material3. ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3. IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3. Text
+import androidx.compose.material3. TopAppBar
+import androidx.compose.material3. TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -26,8 +24,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.esjumbo.data.Sumberdata
 import com.example.esjumbo.data.Sumberdata.flavors
+
 
 enum class PengelolaHalaman {
     Home,
@@ -35,20 +33,20 @@ enum class PengelolaHalaman {
     Summary,
     CustomerDetails,
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EsjumboAPPBar(
+fun EsJumboAppBar(
     bisaNavigasiBack: Boolean,
     navigasiUp: () -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     TopAppBar(
-        title = { Text(stringResource(R.string.app_name)) },
-        colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+        title = { Text (stringResource (id = R.string.app_name)) },
+        colors = TopAppBarDefaults.mediumTopAppBarColors (
+            containerColor =
+            MaterialTheme.colorScheme.primaryContainer
         ),
-        modifier = Modifier,
+        modifier = modifier,
         navigationIcon = {
             if (bisaNavigasiBack) {
                 IconButton(onClick = navigasiUp) {
@@ -66,24 +64,29 @@ fun EsjumboAPPBar(
 @Composable
 fun EsJumboApp(
     viewModel: OrderViewModel = viewModel(),
-    navController: NavHostController = rememberNavController()
-) {
+    navController: NavController = rememberNavController()
+){
     Scaffold(
         topBar = {
-            EsjumboAPPBar(bisaNavigasiBack = false, navigasiUp = { /*TODO*/ })
+            EsJumboAppBar(
+                bisaNavigasiBack = false,
+                navigasiUp = { /* TODO: implement back navigation */
+                }
+            )
         }
-    ) { innerPadding ->
+    ){ innerPadding ->
         val uiState by viewModel.stateUI.collectAsState()
         NavHost(
-            navController = navController,
+            navController = navController as NavHostController,
             startDestination = PengelolaHalaman.Home.name,
             modifier = Modifier.padding(innerPadding)
-        ) {
-            composable(route = PengelolaHalaman.Home.name) {
-                HalamanHome(onNextButtonClicked = {
-                    navController.navigate(PengelolaHalaman.CustomerDetails.name)
-                }
-                )
+        )
+        {
+            composable(route = PengelolaHalaman.Home.name){
+                HalamanHome (
+                    onNextButtonClicked = {
+                        navController.navigate(PengelolaHalaman.CustomerDetails.name)
+                    })
             }
             composable(route = PengelolaHalaman.CustomerDetails.name) {
                 CustomerDetailsScreen(
@@ -118,6 +121,7 @@ fun EsJumboApp(
         }
     }
 }
+
 
 private fun cancelOrderAndNavigateToHome (
     viewModel: OrderViewModel,

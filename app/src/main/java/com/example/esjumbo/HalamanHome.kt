@@ -30,56 +30,54 @@ import com.example.esjumbo.ui.theme.EsJumboTheme
 
 @Composable
 fun HalamanHome(
-    onNextButtonClicked: () -> Unit
-) {
+    onNextButtonClicked: () -> Unit)
+{
     val image = painterResource(id = R.drawable.esteh)
-    Column(
-        modifier = Modifier,
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        OutlinedCard(
+    Column (modifier = Modifier,
+        verticalArrangement = Arrangement.SpaceBetween){
+        OutlinedCard (
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surface,
             ),
-            border = BorderStroke(1.dp, Color.Black),
-            modifier = Modifier
+            border = BorderStroke(1.dp, Color.Black), modifier = Modifier
                 .fillMaxWidth(0.95f)
                 .padding(vertical = 50.dp)
                 .align(Alignment.CenterHorizontally)
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+        ){
+            Column (horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            ) {
-                Image(painter = image, contentDescription = "", contentScale = ContentScale.Crop)
+                    .align(Alignment.CenterHorizontally)) {
+                Image(
+                    painter = image,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
                 Text(
-                    text = "Es APA",
+                    text = "ES APA",
                     color = Color.DarkGray,
-                    fontFamily = FontFamily.Monospace,
+                    fontFamily = FontFamily.Cursive,
                     fontSize = 35.sp,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
                 )
                 Text(
                     text = "HAYO",
                     color = Color.DarkGray,
-                    fontFamily = FontFamily.Monospace,
+                    fontFamily = FontFamily.Cursive,
                     fontStyle = FontStyle.Italic,
                     fontSize = 60.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
         }
-        Row(
+        Row (
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(dimensionResource(R.dimen.padding_medium))
                 .weight(1f, false),
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
-            verticalAlignment = Alignment.Bottom
-        ) {
-            Button(
-                modifier = Modifier.weight(1f),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
+        ){
+            Button(modifier = Modifier.weight(1f),
                 onClick = onNextButtonClicked
             ) {
                 Text(stringResource(R.string.next))
@@ -87,13 +85,10 @@ fun HalamanHome(
         }
     }
 }
-
 @Preview(showBackground = true)
 @Composable
-fun prev() {
+fun PreviewHalamanHome(){
     EsJumboTheme {
-        HalamanHome {
-
-        }
+        HalamanHome (onNextButtonClicked = {})
     }
 }
